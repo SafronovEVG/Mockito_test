@@ -23,11 +23,7 @@ public class DepartmentController {
 
     @GetMapping("/{id}/salary/min")
     public ResponseEntity<Employee> findMinSalaryByDepartment(@PathVariable Integer id) {
-        try {
             return ResponseEntity.ok(departmentService.findMinSalaryByDepartment(id));
-        } catch (DepartmentNotFoundException e) {
-            throw new DepartmentNotFoundException();
-        }
     }
 
 

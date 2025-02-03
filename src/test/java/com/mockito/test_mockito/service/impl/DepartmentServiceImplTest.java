@@ -43,8 +43,8 @@ class DepartmentServiceImplTest {
     @Test
     public void findMinSalaryByDepartment() {
 
-        assertEquals(departmentService.findMinSalaryByDepartment(1), employee);
-
+        assertEquals(departmentService.findMinSalaryByDepartment(1),
+                employee);
         verify(employeeRepositoryMock, times(1)).getAll();
         verify(employeeRepositoryMock, never()).find(1);
         verify(employeeRepositoryMock, never()).remove(1);
@@ -53,8 +53,8 @@ class DepartmentServiceImplTest {
 
     @Test
     public void findMinSalaryByDepartmentTwo() {
-        assertEquals(departmentService.findMinSalaryByDepartment(2), employee3);
-
+        assertEquals(departmentService.findMinSalaryByDepartment(2),
+                employee3);
         verify(employeeRepositoryMock, times(1)).getAll();
         verify(employeeRepositoryMock, never()).find(1);
         verify(employeeRepositoryMock, never()).remove(1);
@@ -63,8 +63,8 @@ class DepartmentServiceImplTest {
 
     @Test
     public void findMaxSalaryByDepartment() {
-        assertEquals(departmentService.findMaxSalaryByDepartment(1), employee2);
-
+        assertEquals(departmentService.findMaxSalaryByDepartment(1),
+                employee2);
         verify(employeeRepositoryMock, times(1)).getAll();
         verify(employeeRepositoryMock, never()).find(1);
         verify(employeeRepositoryMock, never()).remove(1);
@@ -73,8 +73,8 @@ class DepartmentServiceImplTest {
 
     @Test
     public void findAllSumSalaryByDepartment() {
-        assertEquals(departmentService.allSumSalaryByDepartment(1), 30000);
-
+        assertEquals(departmentService.allSumSalaryByDepartment(1),
+                30000);
         verify(employeeRepositoryMock, times(1)).getAll();
         verify(employeeRepositoryMock, never()).find(1);
         verify(employeeRepositoryMock, never()).remove(1);
@@ -94,14 +94,21 @@ class DepartmentServiceImplTest {
         employeeMap.put(employee.getId(), employee);
         employeeMap.put(employee2.getId(), employee2);
         employeeMap.put(employee3.getId(), employee3);
+        Map<Integer, List<Employee>> expected = employeeMap.values().stream()
+                .sorted(Comparator.comparingInt(Employee::getDepartment))
+                .collect(Collectors.groupingBy(Employee::getDepartment));
 
-
-        assertEquals(employeeMap.values().stream().sorted(Comparator.comparingInt(Employee::getDepartment)).collect(Collectors.groupingBy(Employee::getDepartment)), departmentService.getAllEmployee());
+        assertEquals(expected,
+                departmentService.getAllEmployee());
     }
 
     @Test
-    public void getException() {
+    public void getDepartmentNotFoundExceptionIsMinSalary() {
         assertThrows(DepartmentNotFoundException.class, () -> departmentService.findMinSalaryByDepartment(9));
+    }
+
+    @Test
+    public void detDepartmentNotFoundExceptionIsMaxSalary() {
         assertThrows(DepartmentNotFoundException.class, () -> departmentService.findMaxSalaryByDepartment(7));
     }
 }

@@ -4,6 +4,7 @@ import com.mockito.test_mockito.domian.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,13 @@ class EmployeeRepositoryTest {
     private Employee employee;
     private Employee employee2;
     private EmployeeRepository employeeRepository;
+
+    public Map setEmployeeMapExpected() {
+        Map<Integer, Employee> employeeMap = new HashMap<>();
+        employeeMap.put(employee.getId(), employee);
+        employeeMap.put(employee2.getId(), employee2);
+        return employeeMap;
+    }
 
     @BeforeEach
     public void setUp() {
@@ -27,23 +35,20 @@ class EmployeeRepositoryTest {
     }
 
 
-    @Test
+   @Test
     void getAll() {
-        Map<Integer, Employee> expected = employeeRepository.getAll();
+        Map<Integer, Employee> actual = employeeRepository.getAll();
 
-        Map<Integer, Employee> actual = new HashMap<>();
-        actual.put(employee.getId(), employee);
-        actual.put(employee2.getId(), employee2);
 
-        assertEquals(expected, actual);
+        assertEquals(setEmployeeMapExpected(), actual);
     }
 
     @Test
     void remove() {
-        Map<Integer, Employee> expected = employeeRepository.getAll();
-        expected.remove(employee.getId());
+        Map<Integer, Employee> actual = employeeRepository.getAll();
+        actual.remove(employee.getId());
 
-        Map<Integer, Employee> actual = new HashMap<>();
+        Map<Integer, Employee> expected = new HashMap<>();
         actual.put(employee.getId(), employee);
         actual.put(employee2.getId(), employee2);
         actual.remove(employee.getId());
@@ -53,10 +58,9 @@ class EmployeeRepositoryTest {
 
     @Test
     void find() {
-        Employee expected = employeeRepository.find(employee.getId());
+        Employee actual = employeeRepository.find(employee.getId());
 
-        Employee actual = employee;
 
-        assertEquals(expected, actual);
+        assertEquals(employee,actual);
     }
 }
