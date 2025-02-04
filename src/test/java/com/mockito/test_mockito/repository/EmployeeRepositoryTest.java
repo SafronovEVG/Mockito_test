@@ -39,19 +39,18 @@ class EmployeeRepositoryTest {
     void getAll() {
         Map<Integer, Employee> actual = employeeRepository.getAll();
 
-
         assertEquals(setEmployeeMapExpected(), actual);
     }
 
     @Test
     void remove() {
-        Map<Integer, Employee> actual = employeeRepository.getAll();
-        actual.remove(employee.getId());
-
         Map<Integer, Employee> expected = new HashMap<>();
-        actual.put(employee.getId(), employee);
-        actual.put(employee2.getId(), employee2);
-        actual.remove(employee.getId());
+        expected.put(employee.getId(), employee);
+        expected.put(employee2.getId(), employee2);
+        expected.remove(employee.getId());
+
+        employeeRepository.remove(employee.getId());
+        Map<Integer, Employee> actual = employeeRepository.getAll();
 
         assertEquals(expected, actual);
     }
@@ -59,7 +58,6 @@ class EmployeeRepositoryTest {
     @Test
     void find() {
         Employee actual = employeeRepository.find(employee.getId());
-
 
         assertEquals(employee,actual);
     }

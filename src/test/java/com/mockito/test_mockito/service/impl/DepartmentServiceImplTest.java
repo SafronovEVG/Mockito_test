@@ -42,7 +42,6 @@ class DepartmentServiceImplTest {
 
     @Test
     public void findMinSalaryByDepartment() {
-
         assertEquals(departmentService.findMinSalaryByDepartment(1),
                 employee);
         verify(employeeRepositoryMock, times(1)).getAll();

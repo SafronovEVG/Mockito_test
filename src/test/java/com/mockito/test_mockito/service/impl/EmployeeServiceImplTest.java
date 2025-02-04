@@ -29,34 +29,32 @@ class EmployeeServiceImplTest {
 
     @Test
     public void addEmployee() {
-        Map<Integer, Employee> expected = employeeRepository.getAll();
+        Map<Integer, Employee> expected = new HashMap<>();
+        expected.put(employee.getId(), employee);
+        expected.put(employee2.getId(), employee2);
+        expected.put(employee3.getId(), employee3);
 
-        Map<Integer, Employee> actual = new HashMap<>();
-        actual.put(employee.getId(), employee);
-        actual.put(employee2.getId(), employee2);
-        actual.put(employee3.getId(), employee3);
+        Map<Integer, Employee> actual = employeeRepository.getAll();
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void removeEmployee() {
-        Map<Integer, Employee> expected = employeeRepository.getAll();
-        employeeRepository.remove(employee.getId());
+        Map<Integer, Employee> expected = new HashMap<>();
+        expected.put(employee2.getId(), employee2);
+        expected.put(employee3.getId(), employee3);
 
-        Map<Integer, Employee> actual = new HashMap<>();
-        actual.put(employee2.getId(), employee2);
-        actual.put(employee3.getId(), employee3);
+        employeeRepository.remove(employee.getId());
+        Map<Integer, Employee> actual = employeeRepository.getAll();
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void findEmployee() {
-        Employee expected = employeeRepository.find(1);
+        Employee actual = employeeRepository.find(1);
 
-        Employee actual = employee;
-
-        assertEquals(expected, actual);
+        assertEquals(employee, actual);
     }
 }
